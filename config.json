@@ -1,0 +1,24 @@
+{
+    "name": "<EDIT>",
+    "address": "<EDIT>",
+    "interval": "<EDIT>",
+    "min_interval": "<EDIT>",
+    "routes_path": "<EDIT>",
+    "database": {
+        "host": "<EDIT>",
+        "port": "<EDIT>",
+        "user": "<EDIT>",
+        "passwordProtected": true,
+        "password": "<EDIT>",
+        "database_name": "<EDIT>"
+    },
+    "password_requirement": {
+        "min_length": 0,
+        "min_uppercase": 0,
+        "min_number": 0,
+        "min_special": 0
+    },
+    "request_limit": 100,
+    "request_limit_time_window": 1,
+    "salt": "<EDIT>"
+}
