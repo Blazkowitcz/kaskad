@@ -10,6 +10,15 @@ exports.getUserByUsername = async (username) => {
 }
 
 /**
+ * Get User from passkey
+ * @param {String} passkey 
+ * @returns {UserModel}
+ */
+exports.getUserByPasskey = async (passkey) => {
+    return await UserModel.findOne({passkey: passkey}).lean();
+}
+
+/**
  * Create new User
  * @param {Object} user 
  * @returns {UserModel}
