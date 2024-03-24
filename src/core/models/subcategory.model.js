@@ -14,8 +14,8 @@ const Subcategory = mongoose.Schema({
     category: {
         type: mongoose.Schema.Types.ObjectId,
         ref: Category,
-        autopopulate: true,
-        required: true
+        autopopulate: { select: '-__v' },
+        required: true,
     },
     icon: {
         type: String,
