@@ -22,7 +22,7 @@ exports.getBestTorrents = async () => {
  * @returns {TorrentModel}
  */
 exports.getTorrent = async (id) => {
-    return await TorrentModel.findOne({_id: id}).lean();
+    return await TorrentModel.findOne({_id: id});
 }
 
 /**
@@ -31,7 +31,7 @@ exports.getTorrent = async (id) => {
  * @returns {TorrentModel}
  */
 exports.getTorrentByHash = async (hash) => {
-    return await TorrentModel.findOne({hash: hash}).lean();
+    return await TorrentModel.findOne({hash: hash});
 }
 
 exports.createTorrent = async (data) => {

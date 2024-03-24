@@ -1,5 +1,4 @@
 const CategoryModel = require('../models/category.model');
-const SubcategoryModel = require('../models/subcategory.model');
 const slug = require('slug');
 
 /**
@@ -16,15 +15,6 @@ exports.getCategories = async () => {
  */
 exports.getCategory = async (category) => {
     return await CategoryModel.findOne({$or: [{_id: category}, {name: category}]});
-}
-
-/**
- * 
- * @param {CategoryModel} category 
- * @returns 
- */
-exports.getSubcategories = async (category) => {
-    return await SubcategoryModel.find({category: category._id});
 }
 
 /**
