@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const config = require('../../config.json');
+const config = require('../../../config.json');
 
 /**
  * Check token sent by user for authorization
@@ -12,10 +12,11 @@ const config = require('../../config.json');
     let token = req.header('token');
     if(!token) { return res.status(401).json({message: 'Auth Error'});}
     try{
-        let decoded = jwt.verify(token, config.salt);
+        let decoded = jwt.verify(token, process.env.SECRET_KEY);
         req.user = decoded.user;
         next();
     } catch (e) {
+        console.log(e)
         res.status(401).send({message: 'Invalid Token'});
     }
 }
