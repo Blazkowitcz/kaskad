@@ -1,7 +1,7 @@
 const CategoryService = require('../services/category.service');
 
 /**
- * 
+ * Get all categories
  * @param {Request} req 
  * @param {Response} res 
  */
@@ -11,7 +11,7 @@ exports.getCategories = async (req, res) => {
 }
 
 /**
- * 
+ * Get category from its ID
  * @param {Request} req 
  * @param {Response} res 
  */
@@ -22,17 +22,7 @@ exports.getCategory = async (req, res) => {
 }
 
 /**
- * 
- * @param {Request} req 
- * @param {Response} res 
- */
-exports.getSubcategories = async (req, res) => {
-    const category = await CategoryService.getCategory(req.params.category);
-    const results = await CategoryService.getSubcategories(category);
-}
-
-/**
- * 
+ * Create new category
  * @param {Request} req 
  * @param {Response} res 
  */

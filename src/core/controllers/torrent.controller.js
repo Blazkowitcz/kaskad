@@ -1,8 +1,10 @@
-const parse_torrent = require('parse-torrent');
+var parseTorrent = require('parse-torrent')
 const crypto = require("crypto");
-const slug = require('slug');
+const stringUtils = require('../utils/string.utils');
+const torrentUtils = require('../utils/torrent.utils');
 const fs = require('fs');
 const TorrentService = require('../services/torrent.service');
+const { Readable } = require("stream");
 
 /**
  * Get last Torrents
@@ -31,17 +33,20 @@ exports.getBestTorrents = async (req, res) => {
  */
 exports.upload = async (req, res) => {
     const body = req.body;
-    const data = parse_torrent(req.files.torrent.data);
+    const data = parseTorrent(req.files.torrent.data);
     let torrent = await TorrentService.getTorrentByHash(data.infoHash);
     if (torrent === null){
         const file = req.files.torrent;
         const filename = `${crypto.randomBytes(16).toString('hex')}.torrent`;
         torrent = await TorrentService.createTorrent({
             name: data.name,
-            slug: slug(data.name),
+            slug: stringUtils.slug(data.name),
             description: body.description,
             filename: filename,
-            hash: data.infoHash
+            hash: data.infoHash,
+            subcategory: body.subcategory,
+            size: data.length,
+            user: body.user
         });
         file.mv(`./public/torrents/${filename}`);
     }
@@ -58,6 +63,15 @@ exports.download = async (req, res) => {
     if(torrent === null){
         return res.status(422).json({});
     }
-    const data = parse_torrent(fs.readFileSync(`./public/torrents/${torrent.filename}`));
-    
+    const data = parseTorrent(fs.readFileSync(`./public/torrents/${torrent.filename}`));
+    data.createdBy = 'kaskad';
+    data.announce[0] = 'http://127.0.0.1:3000/announce/' + req.user.passkey;
+    const newTorrent = parseTorrent.toTorrentFile(data);
+    res.setHeader('Access-Control-Expose-Headers', 'Content-Disposition');
+    res.set({
+        'Content-Disposition': `attachment; filename="${torrentUtils.formatName(data.name + '.torrent')}"`,
+        'Content-Type': 'text/plain'
+    });
+    let stream = Readable.from(newTorrent);
+    stream.pipe(res);
 }
