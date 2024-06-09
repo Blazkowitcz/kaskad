@@ -5,8 +5,8 @@ const UserModel = require('../models/user.model');
  * @param {String} username 
  * @returns {UserModel}
  */
-exports.getUserByUsername = async (username) => {
-    return await UserModel.findOne({username: username}).lean();
+exports.getUserByUsername = async (username, custom = '') => {
+    return await UserModel.findOne({username: username}).select(custom).lean();
 }
 
 /**
@@ -15,7 +15,7 @@ exports.getUserByUsername = async (username) => {
  * @returns {UserModel}
  */
 exports.getUserByPasskey = async (passkey) => {
-    return await UserModel.findOne({passkey: passkey}).lean();
+    return await UserModel.findOne({passkey: passkey}).select('+passkey').lean();
 }
 
 /**
