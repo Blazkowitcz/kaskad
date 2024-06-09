@@ -13,7 +13,7 @@ const UserService = require('../services/user.service');
 exports.signin = async (req, res) => {
     const { username, password } = req.body;
     try{
-        const user = await UserService.getUserByUsername(username);
+        const user = await UserService.getUserByUsername(username, '+password +passkey');
         if(!user){
             return res.status(400).json({message: 'Error during login'});
         }
