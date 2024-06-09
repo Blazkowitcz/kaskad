@@ -4,12 +4,12 @@ module.exports = app => {
     /**
      * GET
      */
-    app.get('/last', TorrentController.getLastTorrents);
-    app.get('/best', TorrentController.getBestTorrents);
-    app.get('/download/:id', AuthMiddleware.checkToken, TorrentController.download);
+    app.get('/torrents/last', TorrentController.getLastTorrents);
+    app.get('/torrents/best', TorrentController.getBestTorrents);
+    app.get('/torrents/download/:id', AuthMiddleware.checkToken, TorrentController.download);
 
     /**
      * POST
      */
-    app.post('/upload', AuthMiddleware.checkToken, TorrentController.upload);
+    app.post('/torrents/upload', AuthMiddleware.checkToken, TorrentController.upload);
 }
