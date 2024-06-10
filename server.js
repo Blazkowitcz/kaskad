@@ -8,6 +8,7 @@ const config = require('./config.json');
 const fs = require('fs');
 const path = require('path');
 const InitiateDatabase = require('./src/core/modules/database.module');
+const cron = require('./src/core/modules/cron.module');
 
 InitiateDatabase()
 
@@ -21,4 +22,4 @@ routes.forEach(route => {
     require(`./${config.routes_path}/${route}`)(app);
 });
 
-app.listen(process.env.PORT || 3001, function() {});
+app.listen(process.env.PORT || 3000, function() {});
