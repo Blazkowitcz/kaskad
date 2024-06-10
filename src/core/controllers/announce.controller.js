@@ -2,6 +2,7 @@ const bencode = require('bencode');
 const UserService = require('../services/user.service');
 const PeerService = require('../services/peer.service');
 const StringUtils = require('../utils/string.utils');
+const config = require('../../../config.json')
 
 /**
  * Announcer
@@ -27,7 +28,7 @@ exports.announce = async (req, res) => {
     const data = {
         interval: 2700,
         min_interval: 1800,
-        tracker_id: 'http://127.0.0.1:3000',
+        tracker_id: `http://${config.address}:3000`,
         complete: info,
         incomplete: 0,
         peers: reformartPeers(peers)
