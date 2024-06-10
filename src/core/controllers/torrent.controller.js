@@ -22,7 +22,12 @@ exports.getLastTorrents = async (req, res) => {
  * @param {Response} res 
  */
 exports.getBestTorrents = async (req, res) => {
-    const results = await TorrentService.getBestTorrents();
+    const torrents = await TorrentService.getBestTorrents();
+    const results = await Promise.all(torrents.map(async (torrent) => {
+        const torrentObj = torrent.toObject();
+        torrentObj.seeders = await torrent.getSeeders();
+        return torrentObj;
+    }));
     res.status(200).json(results);
 }
 

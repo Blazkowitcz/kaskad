@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const mongoose_autopopulate = require('mongoose-autopopulate');
 const User = require('./user.model');
+const Peer = require('./peer.model');
 const Subcategory = require('./subcategory.model');
 
 const Torrent = mongoose.Schema({
@@ -43,10 +44,6 @@ const Torrent = mongoose.Schema({
         autopopulate: true,
         required: true
     },
-    seeders: {
-        type: Number,
-        default: 0
-    },
     completed: {
         type: Number,
         default: 0
@@ -72,7 +69,11 @@ const Torrent = mongoose.Schema({
         type: Date,
         default: new Date()
     }
-});
+}, { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true });
+
+Torrent.methods.getSeeders = async function() {
+    return await Peer.countDocuments({ hash: this.hash });
+};
 
 Torrent.plugin(mongoose_autopopulate);
 module.exports = mongoose.model('torrent', Torrent);
